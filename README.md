@@ -25,24 +25,20 @@ N/A
 
 ## setup instructions
 
-move right left up and down to get onto platfrom
+move right left up and down to get onto platfrom with arrow keys 
 click D for toggle menue
-Click
+Click M for moon gravity 
 
 ---
 
 ## iteration notes
 
-changed speed of blob to slow  
-chnaged color to blue of blob
-chnaged jump to very little
-changed wobble to slow and little
-chnaged background to dark blue
+Added gravity / ground debug 
 
 ---
 
 ## GenAI
 
-No GenAI used
+Gen AI was used 
 
 ---
