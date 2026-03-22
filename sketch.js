@@ -64,6 +64,13 @@ const MAP_START_Y = VIEWH - TILE_H * 4;
 
 // gravity
 const GRAVITY = 10;
+const MOON_GRAVITY = 3; // reduced gravity for moon effect
+
+// --- DEBUG MODE ---
+let debugMode = {
+  showUI: false,
+  moonGravity: false
+};
 
 function preload() {
   // --- IMAGES ---
@@ -154,6 +161,17 @@ function startMusicIfNeeded() {
 
 function keyPressed() {
   startMusicIfNeeded();
+
+  // --- DEBUG TOGGLES ---
+  // Press 'D' to show/hide debug UI
+  if (key === 'd' || key === 'D') {
+    debugMode.showUI = !debugMode.showUI;
+  }
+  // Press 'M' to toggle moon gravity
+  if (key === 'm' || key === 'M') {
+    debugMode.moonGravity = !debugMode.moonGravity;
+    world.gravity.y = debugMode.moonGravity ? MOON_GRAVITY : GRAVITY;
+  }
 }
 
 function mousePressed() {
@@ -221,4 +239,46 @@ function draw() {
 
   // --- KEEP IN VIEW ---
   player.pos.x = constrain(player.pos.x, FRAME_W / 2, VIEWW - FRAME_W / 2);
+
+  // --- DEBUG SCREEN ---
+  if (debugMode.showUI) {
+    drawDebugScreen(grounded);
+  }
+}
+
+function drawDebugScreen(grounded) {
+  camera.off();
+  
+  // Semi-transparent background for debug panel
+  fill(0, 150);
+  rect(5, 5, 150, 90);
+  
+  // Text styling
+  fill(0, 255, 0);
+  textSize(10);
+  textAlign(LEFT);
+  
+  // Title
+  text("DEBUG MODE", 10, 20);
+  
+  // Moon Gravity Status
+  let gravityStatus = debugMode.moonGravity ? "ON" : "OFF";
+  let gravityColor = debugMode.moonGravity ? color(0, 255, 100) : color(0, 200, 255);
+  fill(gravityColor);
+  text("Moon Gravity: " + gravityStatus, 10, 35);
+  
+  // Grounded Status
+  let groundedStatus = grounded ? "YES" : "NO";
+  let groundedColor = grounded ? color(255, 100, 0) : color(150, 150, 150);
+  fill(groundedColor);
+  text("Grounded: " + groundedStatus, 10, 50);
+  
+  // Controls
+  fill(0, 200, 100);
+  textSize(8);
+  text("[D] Toggle UI", 10, 65);
+  text("[M] Moon Gravity", 10, 75);
+  text("[Arrow Keys] Move", 10, 85);
+  
+  camera.on();
 }
